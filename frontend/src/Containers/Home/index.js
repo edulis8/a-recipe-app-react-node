@@ -12,6 +12,7 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import * as actions from "../../actions"
+import { executeSearch } from "../../actions"
 
 const ingredientList = ["flour", "sugar", "salt", "butter", "milk"]
 
@@ -27,7 +28,8 @@ class Home extends Component {
     }
   }
   fetchSearch() {
-    // TODO: something is missing here for fetching
+    const { term, ingredients } = this.state;
+    executeSearch(term, ingredients);
   }
   handleSearch(event) {
     const term = event.target.value
