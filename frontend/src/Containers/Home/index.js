@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import styled from "styled-components"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import { HomeWrapper } from "./styles"
@@ -12,6 +13,13 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import * as actions from "../../actions"
+
+const ClickableListItemText = styled(ListItemText)`
+  cursor: pointer;
+  &:focus-visible {
+    outline: 1px solid black; 
+  }
+`;
 
 const ingredientList = ["flour", "sugar", "salt", "butter", "milk"]
 
@@ -55,36 +63,41 @@ class Home extends Component {
     return (
       <HomeWrapper>
         <form onSubmit={this.fetchSearch}>
-        <Input
-          autoFocus={true}
-          fullWidth={true}
-          onChange={this.handleSearch}
-          value={term}
-        />
-        <div>
-          <h3>Ingredients on hand</h3>
-          {ingredientList.map((ingredient) => (
-            <FormControlLabel
-              key={ingredient}
-              control={
-                <Checkbox
-                  checked={ingredients.includes(ingredient)}
-                  onChange={this.handleIngredient.bind(this, ingredient)}
-                  value={ingredient}
-                />
-              }
-              label={ingredient}
-            />
-          ))}
-        </div>
-        <Button type="submit">search</Button>
+          <Input
+            autoFocus={true}
+            fullWidth={true}
+            onChange={this.handleSearch}
+            value={term}
+          />
+          <div>
+            <h3>Ingredients on hand</h3>
+            {ingredientList.map((ingredient) => (
+              <FormControlLabel
+                key={ingredient}
+                control={
+                  <Checkbox
+                    checked={ingredients.includes(ingredient)}
+                    onChange={this.handleIngredient.bind(this, ingredient)}
+                    value={ingredient}
+                  />
+                }
+                label={ingredient}
+              />
+            ))}
+          </div>
+          <Button type="submit">search</Button>
         </form>
         <Divider />
         {recipes && (
           <List>
             {recipes.map((recipe) => (
               <ListItem key={recipe.id}>
-                <ListItemText onClick={() => this.fetchRecipe(recipe.id)} primary={recipe.name} />
+                <ClickableListItemText
+                  onClick={() => this.fetchRecipe(recipe.id)}
+                  primary={recipe.name}
+                  role="button"
+                  tabIndex="0"
+                />
               </ListItem>
             ))}
           </List>
@@ -111,7 +124,6 @@ const mapDispatchToProps = (dispatch) =>
     {
       searchRecipes: actions.searchRecipes,
       getRecipe: actions.getRecipe,
-
     },
     dispatch
   )
