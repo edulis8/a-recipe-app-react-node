@@ -6,10 +6,13 @@ const fetchingSearch = () => ({
   type: GET_SEARCH,
 })
 
-const fetchedSearch = (payload) => ({
-  type: RECEIVE_SEARCH,
-  payload,
-})
+const fetchedSearch = (payload) => {
+  console.log('RECEIVE_SEARCH, in action', {payload})
+  return {
+    type: RECEIVE_SEARCH,
+    payload,
+  }
+}
 
 const failedSearch = (payload) => ({
   type: FAIL_SEARCH,
@@ -28,12 +31,19 @@ export const executeSearch = async (name, ingredients) => {
   return searchResults
 }
 
-// TODO: fix action
+// TODO, del consoles
 export const searchRecipes = (name, ingredients) => {
   return (dispatch) => {
-    dispatch(fetchingSearch())
+    console.log('Dispatching fetchingSearch action');
+    dispatch(fetchingSearch());
     return executeSearch(name, ingredients)
-      .then((res) => fetchedSearch(res))
-      .catch((err) => dispatch(failedSearch(err)))
-  }
-}
+      .then((res) => {
+        console.log('Dispatching fetchedSearch action with result:', res);
+        dispatch(fetchedSearch(res));
+      })
+      .catch((err) => {
+        console.error('Error during search:', err);
+        dispatch(failedSearch(err));
+      });
+  };
+};

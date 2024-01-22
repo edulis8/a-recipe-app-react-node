@@ -12,7 +12,6 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import * as actions from "../../actions"
-import { executeSearch } from "../../actions"
 
 const ingredientList = ["flour", "sugar", "salt", "butter", "milk"]
 
@@ -22,14 +21,19 @@ class Home extends Component {
     this.handleSearch = this.handleSearch.bind(this)
     this.handleIngredient = this.handleIngredient.bind(this)
     this.fetchSearch = this.fetchSearch.bind(this)
+    this.fetchRecipe = this.fetchRecipe.bind(this)
     this.state = {
       term: "",
       ingredients: ["milk"],
     }
   }
-  fetchSearch() {
-    const { term, ingredients } = this.state;
-    executeSearch(term, ingredients);
+  fetchSearch(e) {
+    e.preventDefault()
+    const { term, ingredients } = this.state
+    this.props.searchRecipes(term, ingredients)
+  }
+  fetchRecipe(id) {
+    this.props.getRecipe(id)
   }
   handleSearch(event) {
     const term = event.target.value
@@ -50,6 +54,7 @@ class Home extends Component {
     const { recipes, isLoading } = this.props
     return (
       <HomeWrapper>
+        <form onSubmit={this.fetchSearch}>
         <Input
           autoFocus={true}
           fullWidth={true}
@@ -72,13 +77,14 @@ class Home extends Component {
             />
           ))}
         </div>
-        <Button onClick={this.fetchSearch}>search</Button>
+        <Button type="submit">search</Button>
+        </form>
         <Divider />
         {recipes && (
           <List>
             {recipes.map((recipe) => (
               <ListItem key={recipe.id}>
-                <ListItemText primary={recipe.name} />
+                <ListItemText onClick={() => this.fetchRecipe(recipe.id)} primary={recipe.name} />
               </ListItem>
             ))}
           </List>
@@ -104,6 +110,8 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       searchRecipes: actions.searchRecipes,
+      getRecipe: actions.getRecipe,
+
     },
     dispatch
   )
