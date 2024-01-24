@@ -2,7 +2,6 @@ import {
   GET_RECIPE,
   RECEIVE_RECIPE,
   FAIL_RECIPE,
-  SELECT_RECIPE,
 } from "../actions"
 
 const initialState = {
@@ -24,11 +23,6 @@ const recipeFailed = (state, payload) => {
   return { ...state, isLoading: false, error: payload }
 }
 
-// TODO EB maybe remove all this
-const recipeSelected = (state, payload) => {
-  return { ...state, selectedRecipeId: payload }
-}
-
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_RECIPE:
@@ -37,8 +31,6 @@ export default (state = initialState, { type, payload }) => {
       return recipeFetched(state, payload)
     case FAIL_RECIPE:
       return recipeFailed(state, payload)
-    case SELECT_RECIPE:
-      return recipeSelected(state, payload)
     default:
       return state
   }

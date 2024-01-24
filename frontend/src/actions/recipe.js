@@ -1,7 +1,6 @@
 export const GET_RECIPE = "GET_RECIPE"
 export const RECEIVE_RECIPE = "RECEIVE_RECIPE"
 export const FAIL_RECIPE = "FAIL_RECIPE"
-export const SELECT_RECIPE = "SELECT_RECIPE"
 
 const fetchingRecipe = () => ({
   type: GET_RECIPE,
@@ -24,11 +23,6 @@ export const executeGetRecipe = async (id) => {
   const recipe = await response.json()
   return recipe
 }
-
-export const selectRecipe = (recipeId) => ({
-  type: SELECT_RECIPE,
-  payload: recipeId,
-})
 
 export const getRecipe = (id) => {
   return async (dispatch) => {

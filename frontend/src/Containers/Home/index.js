@@ -23,7 +23,6 @@ class Home extends Component {
     this.handleSearchTermChange = this.handleSearchTermChange.bind(this)
     this.handleIngredient = this.handleIngredient.bind(this)
     this.fetchSearch = this.fetchSearch.bind(this)
-    this.selectRecipe = this.selectRecipe.bind(this)
     this.navigateToRecipe = this.navigateToRecipe.bind(this)
     this.state = {
       term: "",
@@ -39,7 +38,6 @@ class Home extends Component {
     // history.push('/search-results')
   }
   selectRecipe(id) {
-    // this.props.selectRecipe(id)
     this.navigateToRecipe(id)
   }
   navigateToRecipe(id) {
@@ -98,7 +96,6 @@ class Home extends Component {
               <ListItem key={recipe.id}>
                 <Link to={`/recipe/${recipe.id}`}>
                   <ListItemText
-                    onClick={() => this.selectRecipe(recipe.id)}
                     primary={recipe.name}
                     role="button"
                     tabIndex="0"
@@ -130,7 +127,6 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       searchRecipes: actions.searchRecipes,
-      selectRecipe: actions.selectRecipe,
     },
     dispatch
   )
