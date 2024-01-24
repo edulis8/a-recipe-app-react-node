@@ -1,7 +1,8 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
-import { HomeWrapper, ClickableListItemText } from "./styles"
+import { Link } from "react-router-dom"
+import { HomeWrapper } from "./styles"
 import Input from "@material-ui/core/Input"
 import Checkbox from "@material-ui/core/Checkbox"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
@@ -12,6 +13,7 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import * as actions from "../../actions"
 import Recipe from "../Recipe"
+import { ListItemText } from "@material-ui/core"
 
 const ingredientList = ["flour", "sugar", "salt", "butter", "milk"]
 
@@ -22,6 +24,7 @@ class Home extends Component {
     this.handleIngredient = this.handleIngredient.bind(this)
     this.fetchSearch = this.fetchSearch.bind(this)
     this.selectRecipe = this.selectRecipe.bind(this)
+    this.navigateToRecipe = this.navigateToRecipe.bind(this)
     this.state = {
       term: "",
       ingredients: ["milk"],
@@ -36,8 +39,14 @@ class Home extends Component {
     // history.push('/search-results')
   }
   selectRecipe(id) {
-    this.props.selectRecipe(id)
+    // this.props.selectRecipe(id)
+    this.navigateToRecipe(id)
   }
+  navigateToRecipe(id) {
+    const { history } = this.props;
+    console.log({id}, {history}, {'this': this})
+    history.push(`/recipe/${id}`);
+  };
   handleSearchTermChange(event) {
     const term = event.target.value
     this.setState({ term })
@@ -87,12 +96,14 @@ class Home extends Component {
           <List>
             {recipes.map((recipe) => (
               <ListItem key={recipe.id}>
-                <ClickableListItemText
-                  onClick={() => this.selectRecipe(recipe.id)}
-                  primary={recipe.name}
-                  role="button"
-                  tabIndex="0"
-                />
+                <Link to={`/recipe/${recipe.id}`}>
+                  <ListItemText
+                    onClick={() => this.selectRecipe(recipe.id)}
+                    primary={recipe.name}
+                    role="button"
+                    tabIndex="0"
+                  />
+                </Link>
               </ListItem>
             ))}
           </List>
@@ -104,16 +115,15 @@ class Home extends Component {
             I'm expecting you to have it return null or a component based on the redux state, not passing any props from here
             I want to see how you wire up a component with connect and build actions.
           */}
-        <Recipe />
+        {/* <Recipe /> */}
       </HomeWrapper>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  // TODO EB make sure recipe needs to be here, after all
-  const { search, recipe } = state
-  return { ...search, ...recipe }
+  const { search } = state
+  return { ...search }
 }
 
 const mapDispatchToProps = (dispatch) =>

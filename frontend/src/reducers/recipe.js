@@ -1,10 +1,15 @@
-import { GET_RECIPE, RECEIVE_RECIPE, FAIL_RECIPE, SELECT_RECIPE } from "../actions"
+import {
+  GET_RECIPE,
+  RECEIVE_RECIPE,
+  FAIL_RECIPE,
+  SELECT_RECIPE,
+} from "../actions"
 
 const initialState = {
   recipe: null,
   isLoading: false,
   error: null,
-  selectedRecipeId: null
+  selectedRecipeId: null,
 }
 
 const recipeFetching = (state) => {
@@ -19,7 +24,7 @@ const recipeFailed = (state, payload) => {
   return { ...state, isLoading: false, error: payload }
 }
 
-// TODO EB PROB DELETE ALL  selectedRecipeId and SELECT_RECIPE code
+// TODO EB maybe remove all this
 const recipeSelected = (state, payload) => {
   return { ...state, selectedRecipeId: payload }
 }
@@ -33,7 +38,7 @@ export default (state = initialState, { type, payload }) => {
     case FAIL_RECIPE:
       return recipeFailed(state, payload)
     case SELECT_RECIPE:
-        return recipeSelected(state, payload)
+      return recipeSelected(state, payload)
     default:
       return state
   }

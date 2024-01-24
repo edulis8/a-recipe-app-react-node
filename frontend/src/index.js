@@ -6,15 +6,22 @@ import { createStore, applyMiddleware } from "redux"
 import { hot } from "react-hot-loader"
 import Home from "./Containers/Home"
 import reducers from "./reducers"
+import { HashRouter as Router, Switch, Route } from "react-router-dom"
+import Recipe from "./Containers/Recipe"
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware))
 
-const WrappedHome = () => (
+const App = () => (
   <Provider store={store}>
-    <Home />
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/recipe/:id" component={Recipe} />
+      </Switch>
+    </Router>
   </Provider>
 )
 
-const HotHome = hot(module)(WrappedHome)
+const HotApp = hot(module)(App)
 
-ReactDOM.render(<HotHome />, document.getElementById("home"))
+ReactDOM.render(<HotApp />, document.getElementById("home"))

@@ -27,7 +27,7 @@ export const executeGetRecipe = async (id) => {
 
 export const selectRecipe = (recipeId) => ({
   type: SELECT_RECIPE,
-  payload: recipeId
+  payload: recipeId,
 })
 
 export const getRecipe = (id) => {

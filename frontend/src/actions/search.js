@@ -32,13 +32,13 @@ export const executeSearch = async (name, ingredients) => {
 
 export const searchRecipes = (name, ingredients) => {
   return (dispatch) => {
-    dispatch(fetchingSearch());
+    dispatch(fetchingSearch())
     return executeSearch(name, ingredients)
       .then((res) => {
-        dispatch(fetchedSearch(res));
+        dispatch(fetchedSearch(res))
       })
       .catch((err) => {
-        dispatch(failedSearch(err));
-      });
-  };
-};
+        dispatch(failedSearch(err))
+      })
+  }
+}
