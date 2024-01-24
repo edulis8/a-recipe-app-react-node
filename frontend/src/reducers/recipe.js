@@ -1,12 +1,10 @@
-/*
-  TODO: Create reducer and state updates here for recipe
-*/
-import { GET_RECIPE, RECEIVE_RECIPE, FAIL_RECIPE } from "../actions"
+import { GET_RECIPE, RECEIVE_RECIPE, FAIL_RECIPE, SELECT_RECIPE } from "../actions"
 
 const initialState = {
   recipe: null,
   isLoading: false,
   error: null,
+  selectedRecipeId: null
 }
 
 const recipeFetching = (state) => {
@@ -21,16 +19,21 @@ const recipeFailed = (state, payload) => {
   return { ...state, isLoading: false, error: payload }
 }
 
+// TODO EB PROB DELETE ALL  selectedRecipeId and SELECT_RECIPE code
+const recipeSelected = (state, payload) => {
+  return { ...state, selectedRecipeId: payload }
+}
+
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_RECIPE:
-      console.log('reducers', {GET_RECIPE})
-      return recipeFetching()
+      return recipeFetching(state)
     case RECEIVE_RECIPE:
-      console.log('reducers', {RECEIVE_RECIPE})
       return recipeFetched(state, payload)
     case FAIL_RECIPE:
       return recipeFailed(state, payload)
+    case SELECT_RECIPE:
+        return recipeSelected(state, payload)
     default:
       return state
   }

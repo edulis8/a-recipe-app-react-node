@@ -1,8 +1,7 @@
 import React, { Component } from "react"
-import styled from "styled-components"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
-import { HomeWrapper } from "./styles"
+import { HomeWrapper, ClickableListItemText } from "./styles"
 import Input from "@material-ui/core/Input"
 import Checkbox from "@material-ui/core/Checkbox"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
@@ -11,25 +10,18 @@ import Button from "@material-ui/core/Button"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
 import * as actions from "../../actions"
-
-const ClickableListItemText = styled(ListItemText)`
-  cursor: pointer;
-  &:focus-visible {
-    outline: 1px solid black; 
-  }
-`;
+import Recipe from "../Recipe"
 
 const ingredientList = ["flour", "sugar", "salt", "butter", "milk"]
 
 class Home extends Component {
   constructor(props) {
     super(props)
-    this.handleSearch = this.handleSearch.bind(this)
+    this.handleSearchTermChange = this.handleSearchTermChange.bind(this)
     this.handleIngredient = this.handleIngredient.bind(this)
     this.fetchSearch = this.fetchSearch.bind(this)
-    this.fetchRecipe = this.fetchRecipe.bind(this)
+    this.selectRecipe = this.selectRecipe.bind(this)
     this.state = {
       term: "",
       ingredients: ["milk"],
@@ -39,11 +31,14 @@ class Home extends Component {
     e.preventDefault()
     const { term, ingredients } = this.state
     this.props.searchRecipes(term, ingredients)
+    // TODO evaluate:
+    // find a way to store the results on refresh or back btn press
+    // history.push('/search-results')
   }
-  fetchRecipe(id) {
-    this.props.getRecipe(id)
+  selectRecipe(id) {
+    this.props.selectRecipe(id)
   }
-  handleSearch(event) {
+  handleSearchTermChange(event) {
     const term = event.target.value
     this.setState({ term })
   }
@@ -66,7 +61,7 @@ class Home extends Component {
           <Input
             autoFocus={true}
             fullWidth={true}
-            onChange={this.handleSearch}
+            onChange={this.handleSearchTermChange}
             value={term}
           />
           <div>
@@ -93,7 +88,7 @@ class Home extends Component {
             {recipes.map((recipe) => (
               <ListItem key={recipe.id}>
                 <ClickableListItemText
-                  onClick={() => this.fetchRecipe(recipe.id)}
+                  onClick={() => this.selectRecipe(recipe.id)}
                   primary={recipe.name}
                   role="button"
                   tabIndex="0"
@@ -105,25 +100,27 @@ class Home extends Component {
         {isLoading && <LinearProgress />}
         <Divider />
         {/*
-          TODO: Add a recipe component here.
-          I'm expecting you to have it return null or a component based on the redux state, not passing any props from here
-          I want to see how you wire up a component with connect and build actions.
-        */}
+            TODO: Add a recipe component here.
+            I'm expecting you to have it return null or a component based on the redux state, not passing any props from here
+            I want to see how you wire up a component with connect and build actions.
+          */}
+        <Recipe />
       </HomeWrapper>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  const { search } = state
-  return { ...search }
+  // TODO EB make sure recipe needs to be here, after all
+  const { search, recipe } = state
+  return { ...search, ...recipe }
 }
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       searchRecipes: actions.searchRecipes,
-      getRecipe: actions.getRecipe,
+      selectRecipe: actions.selectRecipe,
     },
     dispatch
   )
