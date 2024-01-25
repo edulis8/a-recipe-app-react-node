@@ -14,9 +14,10 @@ const store = createStore(reducers, applyMiddleware(thunkMiddleware))
 const App = () => (
   <Provider store={store}>
     <Router>
-      <Switch>
+    <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/recipe/:id" component={Recipe} />
+        <Route path="/:term?/:ingredients?" component={Home} />
       </Switch>
     </Router>
   </Provider>
