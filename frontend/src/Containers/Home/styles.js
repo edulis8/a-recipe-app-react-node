@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import ListItemText from "@material-ui/core/ListItemText"
+import { Card } from "@material-ui/core"
 
 export const HomeWrapper = styled.div`
   width: 75vw;
@@ -7,16 +7,9 @@ export const HomeWrapper = styled.div`
   display: flex;
   flex-flow: column;
   margin: auto;
-  padding: 8px;
+  padding: 12px;
 `
-
-// TODO EB MAYBE USE OR DEL
-// export const ClickableListItemText = styled(ListItemText)`
-//   cursor: pointer;
-//   &:hover {
-//     color: rgba(0, 0, 0, 0.8);
-//   }
-//   &:focus-visible {
-//     outline: 1px solid black;
-//   }
-// `
+export const SearchCard = styled(Card)`
+  padding: 20px;
+  margin: 10px 0 20px 0; 
+`

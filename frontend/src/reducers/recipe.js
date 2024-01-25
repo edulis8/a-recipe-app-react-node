@@ -8,7 +8,6 @@ const initialState = {
   recipe: null,
   isLoading: false,
   error: null,
-  selectedRecipeId: null,
 }
 
 const recipeFetching = (state) => {

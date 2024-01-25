@@ -1,21 +1,23 @@
 import React, { useEffect } from "react"
 import { connect } from "react-redux"
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"
 import { bindActionCreators } from "redux"
-import { RecipeWrapper } from "./styles"
+import { RecipeCard, RecipeWrapper } from "./styles"
 import * as actions from "../../actions"
+import {
+  LinearProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+} from "@material-ui/core"
 
-const Recipe = ({ selectedRecipeId, getRecipe, recipe, isLoading, error }) => {
-  const { id } = useParams();
-  console.log('useParams id: ', id)
-  console.log("PROPS", {
-    selectedRecipeId,
-    getRecipe,
-    recipe,
-    isLoading,
-    error,
-  })
-
+const Recipe = ({ getRecipe, recipe, isLoading, error }) => {
+  const { id } = useParams()
   useEffect(() => {
     if (id) {
       getRecipe(id)
@@ -26,42 +28,50 @@ const Recipe = ({ selectedRecipeId, getRecipe, recipe, isLoading, error }) => {
     return null
   }
   if (!recipe || isLoading) {
-    // todo change to loader MUI 
-    return <h1>loading...</h1>
+    // todo change to loader MUI
+    return <LinearProgress />
   }
+
   if (error || recipe.error) {
-    return <p>There was an error fetching the recipe.</p>
+    return (
+      <Typography variant="h5">
+        There was an error fetching the recipe.
+      </Typography>
+    )
   }
 
   return (
     <RecipeWrapper>
-      <h3>{recipe.name}</h3>
-      <h4>Ingredients:</h4>
-      <section>
-        {/* todo eb refactor to use mui */}
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Amount</th>
-              <th>Unit</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recipe.ingredients.map(({ _id, unit, name, amount }) => {
-              return (
-                <tr key={_id}>
-                  <td>{name}</td>
-                  <td>{amount}</td>
-                  <td>{unit}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </section>
-      <h4>Instructions:</h4>
-      <section>{recipe.instructions}</section>
+      <RecipeCard variant="outlined" raised>
+        <Typography variant="h5">{recipe.name}</Typography>
+        <Typography variant="h6">Ingredients</Typography>
+        <RecipeCard variant="outlined" raised>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Amount</TableCell>
+                  <TableCell>Unit</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {recipe.ingredients.map(({ _id, unit, name, amount }) => (
+                  <TableRow key={_id}>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{amount}</TableCell>
+                    <TableCell>{unit}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </RecipeCard>
+        <RecipeCard variant="outlined" raised>
+          <Typography variant="h6">Instructions:</Typography>
+          <Typography variant="body1">{recipe.instructions}</Typography>
+        </RecipeCard>
+      </RecipeCard>
     </RecipeWrapper>
   )
 }
