@@ -12,7 +12,7 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import * as actions from "../../actions"
-import { ListItemText, Typography } from "@material-ui/core"
+import { InputLabel, ListItemText, Typography } from "@material-ui/core"
 
 const ingredientList = ["flour", "sugar", "salt", "butter", "milk"]
 
@@ -54,13 +54,17 @@ const Home = ({ searchRecipes, recipes, isLoading }) => {
   return (
     <HomeWrapper>
       <SearchCard variant="outlined" raised>
-        <Typography variant="h5">Recipe Search</Typography>
+        <Typography variant="h5">
+          <label htmlFor="search-input">Recipe Search</label>
+        </Typography>
         <form onSubmit={fetchSearch}>
           <Input
+            id="search-input"
             autoFocus
             fullWidth
             onChange={handleSearchTermChange}
             value={term}
+            aria-label="Search Recipe"
           />
           <div>
             <Typography variant="h6">Ingredients on hand</Typography>

@@ -41,11 +41,11 @@ const Recipe = ({ getRecipe, recipe, isLoading, error }) => {
 
   return (
     <RecipeWrapper>
-      <RecipeCard variant="outlined" raised>
+      <RecipeCard variant="outlined" raised role="region" aria-label="Recipe Information">
         <Typography variant="h5">{recipe.name}</Typography>
         <Typography variant="h6">Ingredients</Typography>
         <RecipeCard variant="outlined" raised>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} role="table">
             <Table>
               <TableHead>
                 <TableRow>
@@ -66,7 +66,7 @@ const Recipe = ({ getRecipe, recipe, isLoading, error }) => {
             </Table>
           </TableContainer>
         </RecipeCard>
-        <RecipeCard variant="outlined" raised>
+        <RecipeCard variant="outlined" raised aria-label={`Recipe: ${recipe.name}`}>
           <Typography variant="h6">Instructions:</Typography>
           <Typography variant="body1">{recipe.instructions}</Typography>
         </RecipeCard>
