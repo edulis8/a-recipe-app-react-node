@@ -28,7 +28,6 @@ const Recipe = ({ getRecipe, recipe, isLoading, error }) => {
     return null
   }
   if (!recipe || isLoading) {
-    // todo change to loader MUI
     return <LinearProgress />
   }
 

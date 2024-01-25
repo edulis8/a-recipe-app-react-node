@@ -98,7 +98,7 @@ const Home = ({ searchRecipes, recipes, isLoading }) => {
         )}
         {isLoading && <LinearProgress />}
         <Divider />
-        {/* Recipe component handled via router */}
+        {/* Recipe component was here; refactored to be handled via router */}
       </SearchCard>
     </HomeWrapper>
   )
